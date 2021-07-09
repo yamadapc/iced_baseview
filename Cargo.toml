@@ -34,11 +34,11 @@ async-std = ["iced_futures/async-std"]
 palette = ["iced_core/palette"]
 
 [dependencies]
-iced_core = "0.4"
-iced_futures = "0.3"
-iced_native =  "0.4"
-iced_graphics = "0.2"
-iced_wgpu = { version = "0.4", optional = true }
+iced_core = { version = "0.4", path = "../iced/core" }
+iced_futures = { version = "0.3", path = "../iced/futures" }
+iced_native =  { version = "0.4", path = "../iced/native" }
+iced_graphics = { version = "0.2", path = "../iced/graphics" }
+iced_wgpu = { version = "0.4", optional = true, path = "../iced/wgpu" }
 keyboard-types = { version = "0.5", default-features = false }
 baseview = { path = "../baseview" }
 raw-window-handle = "0.3"
