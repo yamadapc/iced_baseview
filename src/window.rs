@@ -116,6 +116,7 @@ impl<A: Application + 'static + Send> IcedWindow<A> {
         use iced_graphics::window::Compositor as IGCompositor;
 
         #[cfg(feature = "glow")]
+        #[cfg(not(feature = "wgpu"))]
         use iced_graphics::window::GLCompositor as IGCompositor;
 
         let mut debug = Debug::new();
@@ -164,6 +165,7 @@ impl<A: Application + 'static + Send> IcedWindow<A> {
                 .unwrap();
 
         #[cfg(feature = "glow")]
+        #[cfg(not(feature = "wgpu"))]
         let (context, compositor, renderer) = {
             let context =
                 raw_gl_context::GlContext::create(window, renderer_settings.0)
@@ -205,6 +207,7 @@ impl<A: Application + 'static + Send> IcedWindow<A> {
         ));
 
         #[cfg(feature = "glow")]
+        #[cfg(not(feature = "wgpu"))]
         let instance = Box::pin(run_instance(
             application,
             compositor,
@@ -410,6 +413,7 @@ async fn run_instance<A, E>(
 
     #[rustfmt::skip]
     #[cfg(feature = "glow")]
+    #[cfg(not(feature = "wgpu"))]
     gl_context: raw_gl_context::GlContext,
 
     mut state: State<A>,
@@ -423,6 +427,7 @@ async fn run_instance<A, E>(
     use iced_graphics::window::Compositor as IGCompositor;
 
     #[cfg(feature = "glow")]
+    #[cfg(not(feature = "wgpu"))]
     use iced_graphics::window::GLCompositor as IGCompositor;
 
     //let clipboard = Clipboard::new(window);  // TODO: clipboard
@@ -599,6 +604,7 @@ async fn run_instance<A, E>(
                     }
 
                     #[cfg(feature = "glow")]
+                    #[cfg(not(feature = "wgpu"))]
                     {
                         gl_context.make_current();
                         compositor.resize_viewport(physical_size);
@@ -637,6 +643,7 @@ async fn run_instance<A, E>(
                     );
 
                     #[cfg(feature = "glow")]
+                    #[cfg(not(feature = "wgpu"))]
                     let new_mouse_interaction = {
                         gl_context.make_current();
 
