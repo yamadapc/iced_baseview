@@ -160,7 +160,8 @@ impl<A: Application + 'static + Send> IcedWindow<A> {
 
         #[cfg(feature = "wgpu")]
         let (mut compositor, renderer) =
-            <Compositor as IGCompositor>::new(renderer_settings).unwrap();
+            <Compositor as IGCompositor>::new(renderer_settings, Some(window))
+                .unwrap();
 
         #[cfg(feature = "glow")]
         let (context, compositor, renderer) = {
