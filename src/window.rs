@@ -26,7 +26,7 @@ pub(crate) enum RuntimeEvent<Message: 'static + Send> {
 
 /// This struct creates subscriptions for common window events.
 #[allow(missing_debug_implementations)]
-pub struct WindowSubs<Message: Clone> {
+pub struct WindowSubs<Message> {
     /// The message to send right before each rendering frame.
     pub on_frame: Option<Message>,
     /// The message to send when the window is about to close.
