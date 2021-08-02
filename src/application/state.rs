@@ -6,7 +6,6 @@ use std::marker::PhantomData;
 use crate::{Application, Color, Point, Size};
 
 use baseview::WindowScalePolicy;
-use keyboard_types::{Key, KeyState};
 
 /// The state of a windowed [`Application`].
 #[derive(Debug)]
@@ -148,6 +147,8 @@ impl<A: Application + Send> State<A> {
                 );
                 #[cfg(feature = "debug")]
                 {
+                    use keyboard_types::{Key, KeyState};
+
                     if event.key == Key::F12 && event.state == KeyState::Down {
                         _debug.toggle();
                     }
