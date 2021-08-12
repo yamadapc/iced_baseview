@@ -659,6 +659,23 @@ async fn run_instance<A, E>(
 
                     debug.render_finished();
 
+                    #[cfg(feature = "wgpu")]
+                    {
+                        if let Ok(new_mouse_interaction) = new_mouse_interaction
+                        {
+                            if new_mouse_interaction != mouse_interaction {
+                                // TODO: set window cursor icon
+                                /*
+                                window.set_cursor_icon(conversion::mouse_interaction(
+                                    new_mouse_interaction,
+                                ));
+                                */
+
+                                mouse_interaction = new_mouse_interaction;
+                            }
+                        }
+                    }
+                    #[cfg(not(feature = "wgpu"))]
                     if new_mouse_interaction != mouse_interaction {
                         // TODO: set window cursor icon
                         /*
