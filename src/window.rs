@@ -4,7 +4,7 @@ use iced_futures::futures;
 use iced_futures::futures::channel::mpsc;
 use iced_graphics::Viewport;
 use iced_native::{event::Status, Cache, UserInterface};
-use iced_native::{Debug, Executor, Runtime, Size};
+use iced_native::{Command, Debug, Executor, Runtime, Size};
 use mpsc::SendError;
 use raw_window_handle::{HasRawWindowHandle, RawWindowHandle};
 use std::cell::RefCell;
@@ -14,6 +14,7 @@ use std::rc::Rc;
 
 use crate::application::State;
 use crate::{proxy::Proxy, Application, Compositor, Renderer, Settings};
+use iced_native::command::Action;
 
 pub(crate) enum RuntimeEvent<Message: 'static + Send> {
     Baseview((baseview::Event, bool)),
@@ -100,6 +101,30 @@ pub struct IcedWindow<A: Application + 'static + Send> {
     event_status: Rc<RefCell<EventStatus>>,
 }
 
+fn run_command<Executor, Receiver, Message>(
+    runtime: &mut Runtime<Executor, Receiver, Message>,
+    command: Command<Message>,
+) where
+    Executor: iced_native::Executor,
+    Receiver: iced_native::futures::Sink<Message, Error = mpsc::SendError>
+        + Unpin
+        + Send
+        + Clone
+        + 'static,
+    Message: Send + 'static,
+{
+    for action in command.actions() {
+        match action {
+            Action::Future(fut) => {
+                runtime.spawn(fut);
+            }
+            // TODO - Handle other commands
+            Action::Clipboard(_) => {}
+            Action::Window(_) => {}
+        }
+    }
+}
+
 impl<A: Application + 'static + Send> IcedWindow<A> {
     fn new(
         window: &mut baseview::Window<'_>,
@@ -141,7 +166,7 @@ impl<A: Application + 'static + Send> IcedWindow<A> {
 
         let subscription = application.subscription(&mut window_subs);
 
-        runtime.spawn(init_command);
+        run_command(&mut runtime, init_command);
         runtime.track(subscription);
 
         // Assume scale for now until there is an event with a new one.
@@ -789,7 +814,7 @@ pub fn update<A: Application, E: Executor>(
         let command = runtime.enter(|| application.update(message));
         debug.update_finished();
 
-        runtime.spawn(command);
+        run_command(runtime, command);
     }
 
     let subscription = application.subscription(window_subs);
