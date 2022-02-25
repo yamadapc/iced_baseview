@@ -6,6 +6,7 @@ use iced_native::mouse::Button as IcedMouseButton;
 use iced_native::mouse::Event as IcedMouseEvent;
 use iced_native::window::Event as IcedWindowEvent;
 use iced_native::Event as IcedEvent;
+use std::path::PathBuf;
 
 pub fn baseview_to_iced_events(
     event: BaseEvent,
@@ -158,6 +159,26 @@ pub fn baseview_to_iced_events(
                 modifiers.set(IcedModifiers::SHIFT, false);
                 modifiers.set(IcedModifiers::CTRL, false);
                 modifiers.set(IcedModifiers::LOGO, false);
+            }
+            baseview::WindowEvent::DragEntered(drag_info) => {
+                let baseview::DragInfo::FilesDragged { files } = drag_info;
+                for file in files {
+                    iced_events.push(IcedEvent::Window(
+                        IcedWindowEvent::FileHovered(PathBuf::from(file)),
+                    ));
+                }
+            }
+            baseview::WindowEvent::DragPerformed(drag_info) => {
+                let baseview::DragInfo::FilesDragged { files } = drag_info;
+                for file in files {
+                    iced_events.push(IcedEvent::Window(
+                        IcedWindowEvent::FileDropped(PathBuf::from(file)),
+                    ));
+                }
+            }
+            baseview::WindowEvent::DragExited(_) => {
+                iced_events
+                    .push(IcedEvent::Window(IcedWindowEvent::FilesHoveredLeft));
             }
             _ => {}
         },
