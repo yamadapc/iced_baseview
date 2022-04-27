@@ -51,5 +51,5 @@ iced_wgpu = { version = "0.4", optional = true, path = "../iced/wgpu" }
 iced_glow = { version = "0.2", optional = true, path = "../iced/glow" }
 raw-gl-context = { version = "0.1", optional = true }
 keyboard-types = { version = "0.6.1", default-features = false }
-baseview = { path = "../baseview", git = "https://github.com/RustAudio/baseview.git", rev = "b3712638bacb3fdf2883cb5aa3f6caed0e91ac8c" }
+baseview = { path = "../baseview" }
 raw-window-handle = "0.4.2"
