@@ -6,7 +6,7 @@ edition = "2021"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-baseview = { git = "https://github.com/RustAudio/baseview.git", rev = "f6e99e9aa6f5aeb6b721cb05e4d882a51d995909" }
+baseview = { path = "../../../baseview", package = "augmented_baseview", version = "0.1" }
 env_logger = "0.8"
 futures = "0.3.5"
 iced_baseview = { path = "../../" }
