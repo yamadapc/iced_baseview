@@ -1,8 +1,13 @@
-use baseview::{Size, WindowOpenOptions, WindowScalePolicy};
 use iced_baseview::{
-    executor, slider, Alignment, Application, Color, Column, Command,
-    Container, Element, IcedBaseviewSettings, IcedWindow, Length, Settings,
-    Slider, Text, WindowQueue,
+    baseview::{Size, WindowOpenOptions, WindowScalePolicy},
+    executor, open_blocking,
+    settings::IcedBaseviewSettings,
+    widget::Column,
+    widget::Container,
+    widget::Slider,
+    widget::Text,
+    window::WindowQueue,
+    Alignment, Application, Command, Element, Length, Settings,
 };
 
 fn main() {
@@ -28,7 +33,7 @@ fn main() {
         flags: (),
     };
 
-    IcedWindow::<MyProgram>::open_blocking(settings);
+    open_blocking::<MyProgram>(settings);
 }
 
 #[derive(Debug, Clone)]
@@ -37,7 +42,6 @@ pub enum Message {
 }
 
 struct MyProgram {
-    slider_state: slider::State,
     slider_value: u32,
     slider_value_str: String,
 }
@@ -46,11 +50,11 @@ impl Application for MyProgram {
     type Executor = executor::Default;
     type Message = Message;
     type Flags = ();
+    type Theme = iced_baseview::renderer::Theme;
 
     fn new(_flags: ()) -> (Self, Command<Self::Message>) {
         (
             Self {
-                slider_state: slider::State::new(),
                 slider_value: 0,
                 slider_value_str: String::from("0"),
             },
@@ -73,13 +77,8 @@ impl Application for MyProgram {
         Command::none()
     }
 
-    fn view(&mut self) -> Element<'_, Self::Message> {
-        let slider_widget = Slider::new(
-            &mut self.slider_state,
-            0..=1000,
-            self.slider_value,
-            Message::SliderChanged,
-        );
+    fn view(&self) -> Element<'_, Self::Message, Self::Theme> {
+        let slider_widget = Slider::new(0..=1000, self.slider_value, Message::SliderChanged);
 
         let content = Column::new()
             .width(Length::Fill)
@@ -98,8 +97,12 @@ impl Application for MyProgram {
             .into()
     }
 
-    fn background_color(&self) -> Color {
-        Color::WHITE
+    fn title(&self) -> String {
+        "Slider".into()
+    }
+
+    fn theme(&self) -> Self::Theme {
+        Default::default()
     }
 
     /*
