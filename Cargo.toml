@@ -47,15 +47,15 @@ smol = ["iced_futures/smol"]
 [dependencies]
 baseview = { version = "0", path = "../baseview", package = "augmented_baseview" }
 cfg-if = "1"
-iced_core = "0.6"
-iced_futures = "0.5"
-iced_glow = { version = "0.5", optional = true }
-iced_graphics = "0.5"
-iced_native = "0.7"
-iced_wgpu = { version = "0.7", optional = true }
+copypasta = "0.8"
+iced_core = "0.8"
+iced_futures = "0.6"
+iced_glow = { version = "0.7", optional = true }
+iced_graphics = "0.7"
+iced_native = "0.9"
+iced_wgpu = { version = "0.9", optional = true }
 keyboard-types = { version = "0.6", default-features = false }
 log = "0.4"
 raw-window-handle = "0.4"
 rwh05 = { package = "raw-window-handle", version = "0.5" }
 thiserror = "1.0"
-window_clipboard = "0.2"
