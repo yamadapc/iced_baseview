@@ -1,7 +1,7 @@
 [package]
 name = "augmented_iced_baseview"
 description = "baseview runtime for iced, published fork of https://github.com/BillyDM/iced_baseview for augmented-audio"
-version = "0.0.3"
+version = "0.0.4"
 authors = [
   "Billy Messenger <BillyDM@protonmail.com>",
   "Robbert van der Helm <mail@robbertvanderhelm.nl>",
